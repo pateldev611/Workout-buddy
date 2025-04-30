@@ -1,39 +1,39 @@
 /* eslint-disable no-unused-vars */
-import { useEffect } from "react"
-import {useWorkoutsContext} from "../hooks/useWorkoutsContext"
-
+import { useEffect } from "react";
+import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
 // components
-import WorkoutDetails from "../components/WorkoutDetails"
-import WorkoutForm from "../components/WorkoutForm"
+import WorkoutDetails from "../components/WorkoutDetails";
+import WorkoutForm from "../components/WorkoutForm";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Home = () => {
- const {workouts,dispatch}= useWorkoutsContext()
- 
+  const { workouts, dispatch } = useWorkoutsContext();
 
   useEffect(() => {
     const fetchWorkouts = async () => {
-      const response = await fetch('workouts')
-      const json = await response.json()
+      const response = await fetch(`${BACKEND_URL}/workouts`);
+      const json = await response.json();
 
       if (response.ok) {
-        dispatch({type:'SET_WORKOUTS',payload:json})
+        dispatch({ type: "SET_WORKOUTS", payload: json });
       }
-    }
+    };
 
-    fetchWorkouts()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch])
+    fetchWorkouts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   return (
     <div className="home">
       <div className="workouts">
-        {workouts && workouts.map(workout => (
-          <WorkoutDetails workout={workout} key={workout._id} />
-        ))}
+        {workouts &&
+          workouts.map((workout) => (
+            <WorkoutDetails workout={workout} key={workout._id} />
+          ))}
       </div>
-      <WorkoutForm/>
+      <WorkoutForm />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
